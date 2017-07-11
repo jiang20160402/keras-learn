@@ -1,5 +1,6 @@
 #%%#
 import numpy as np
+import matplotlib.pyplot as plt
 
 def load_data(path='./workspace/demo1/data/mnist.npz'):
   f = np.load(path)
@@ -10,5 +11,12 @@ def load_data(path='./workspace/demo1/data/mnist.npz'):
 
 (x_train, y_train), (x_test, y_test) = load_data()
 
-print(x_train)
-print(y_train)
+plt.subplot(221)
+plt.imshow(x_train[0], cmap=plt.get_cmap('gray'))
+plt.subplot(222)
+plt.imshow(x_train[1], cmap=plt.get_cmap('gray'))
+plt.subplot(223)
+plt.imshow(x_train[2], cmap=plt.get_cmap('gray'))
+plt.subplot(224)
+plt.imshow(x_train[3], cmap=plt.get_cmap('gray'))
+plt.show()
