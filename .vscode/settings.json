@@ -6,6 +6,5 @@
   "python.pythonPath": "D:/Program/Anaconda2/envs/tensorflow/python",
   "python.linting.pylintArgs": [
     "–disable-msg=C0103"
-  ],
-  "python.formatting.provider": "yapf"
+  ]
 }
