@@ -23,11 +23,13 @@ SKIP_STEP = 2000 # how many steps to skip before reporting the loss
 
 def word2vec(batch_gen):
   # define placeholders for input and output
-  center_words = tf.placeholder(tf.int32, shape=[BATCH_SIZE], name='center_words')
-  target_words = tf.placeholder(tf.int32, shape=[BATCH_SIZE], name='target_words')
+  with tf.name_scope('data'):
+    center_words = tf.placeholder(tf.int32, shape=[BATCH_SIZE], name='center_words')
+    target_words = tf.placeholder(tf.int32, shape=[BATCH_SIZE, 1], name='target_words')
 
   # define weights
-  embed_matrix = tf.Variable(tf.random_uniform([VOCAB_SIZE, EMBED_SIZE], -1.0, 1.0), name='embed_matrix')
+  with tf.name_scope('embedding_matrix'):
+    embed_matrix = tf.Variable(tf.random_uniform([VOCAB_SIZE, EMBED_SIZE], -1.0, 1.0), name='embed_matrix')
 
   # define the inference
   with tf.name_scope('loss'):
@@ -66,10 +68,10 @@ def word2vec(batch_gen):
 
       writer.close()
 
-  def main():
-    batch_gen = process_data(VOCAB_SIZE, BATCH_SIZE, SKIP_WINDOW)
-    word2vec(batch_gen)
 
-  if __name__ == '__main__':
-    main()
+def main():
+  batch_gen = process_data(VOCAB_SIZE, BATCH_SIZE, SKIP_WINDOW)
+  word2vec(batch_gen)
 
+if __name__ == '__main__':
+  main()
