@@ -8,7 +8,7 @@ from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("/data/mnist", one_hot=True)
 
 # Step2: Define parameters for the model
-learning_rate = 0.01
+learning_rate = 0.1
 batch_size = 128
 n_epochs = 25
 
@@ -17,8 +17,8 @@ n_epochs = 25
 # therefore, each image is rerpresented with a 1*784 tensor
 # there are 10 classes for each image, corresponding to digits 0-9.
 # each label is one hot vector.
-X = tf.placeholder(tf.float32, [batch_size, 784])
-Y = tf.placeholder(tf.float32, [batch_size, 10])
+X = tf.placeholder(tf.float32, [batch_size, 784], "name")
+Y = tf.placeholder(tf.float32, [batch_size, 10], "label")
 
 # Step4: create weights and bias
 # w is initialized to random variables with mean of 0, stddev of 0.01
@@ -57,7 +57,7 @@ with tf.Session() as sess:
 
     for _ in range(n_batches):
       X_batch, Y_batch = mnist.train.next_batch(batch_size)
-      _, loss_batch = sess.run([optimizer, loss], feed_dict={X: X_batch, Y: Y_batch})
+      _, loss_batch = sess.run([optimizer,loss], feed_dict={X: X_batch, Y: Y_batch})
       total_loss += loss_batch
     print('Average loss epoch {0}: {1}'.format(i, total_loss/n_batches))
 
@@ -66,8 +66,9 @@ with tf.Session() as sess:
   print('Optimization Finished!') # should be around 0.35 after 25 epochs
 
   # test the model
-  preds = tf.nn.softmax(logits)
-  correct_preds = tf.equal(tf.argmax(preds, 1), tf.argmax(Y, 1))
+  # preds = tf.nn.softmax(logits)
+  # correct_preds = tf.equal(tf.argmax(preds, 1), tf.argmax(Y, 1))
+  correct_preds = tf.equal(tf.argmax(Y, 1), tf.argmax(logits, 1))
   accuracy = tf.reduce_sum(tf.cast(correct_preds, tf.float32))
 
   n_batches = int(mnist.test.num_examples/batch_size)
@@ -75,7 +76,7 @@ with tf.Session() as sess:
 
   for i in range(n_batches):
     X_batch, Y_batch = mnist.test.next_batch(batch_size)
-    accuracy_batch = sess.run([accuracy], feed_dict={X: X_batch, Y: Y_batch})
+    accuracy_batch = sess.run(accuracy, feed_dict={X: X_batch, Y: Y_batch})
     total_correct_preds += accuracy_batch
 
   print('Accuracy {0}'.format(total_correct_preds/mnist.test.num_examples))
