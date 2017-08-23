@@ -3,7 +3,7 @@
     "${env.SPARK_HOME}\\python",
     "${env.SPARK_HOME}\\python\\pyspark"
   ],
-  "python.pythonPath": "D:/Program/Anaconda2/envs/tensorflow/python",
+  "python.pythonPath": "D:/ProgramFile/Anaconda2/envs/tensorflow/python",
   "python.linting.pylintArgs": [
     "–disable-msg=C0103"
   ],
